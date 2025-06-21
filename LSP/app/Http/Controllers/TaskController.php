@@ -8,28 +8,59 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     public function index()
+    {
+        $tasks_todo = Task::where('is_done', false)->get();
+        $tasks_done = Task::where('is_done', true)->get();
+
+        return view('tasks.index', compact('tasks_todo', 'tasks_done'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        Task::create([
+            'title' => $request->title,
+            'is_done' => false
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function toggle(Task $task)
+    {
+        $task->update([
+            'is_done' => !$task->is_done
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function destroy(Task $task)
+    {
+        $task->delete();
+
+        return redirect()->back();
+    }
+
+    // Tambahan fitur edit/rename
+   public function edit(Task $task)
 {
-    $tasks_todo = Task::where('is_done', false)->get();
-    $tasks_done = Task::where('is_done', true)->get();
-    return view('tasks.index', compact('tasks_todo', 'tasks_done'));
+    return view('tasks.edit', compact('task'));
 }
 
-public function store(Request $request)
+public function update(Request $request, Task $task)
 {
-    $request->validate(['title' => 'required']);
-    Task::create(['title' => $request->title, 'is_done' => false]);
-    return redirect()->back();
-}
+    $request->validate([
+        'title' => 'required|string|max:255'
+    ]);
 
-public function toggle(Task $task)
-{
-    $task->update(['is_done' => !$task->is_done]);
-    return redirect()->back();
-}
+    $task->update([
+        'title' => $request->title
+    ]);
 
-public function destroy(Task $task)
-{
-    $task->delete();
-    return redirect()->back();
+    return redirect('/')->with('success', 'Tugas berhasil diubah.');
 }
 }
