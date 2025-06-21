@@ -58,13 +58,19 @@
         @forelse($tasks_todo as $task)
         <div class="d-flex justify-content-between align-items-center bg-light rounded p-2 mb-2">
             <span>{{ $task->title }}</span>
-            <form action="/tasks/{{ $task->id }}/toggle" method="POST" style="margin: 0;">
-                @csrf
-                @method('PATCH')
-                <button class="btn btn-sm" style="color: black; background: none; border: none; padding: 0;">
-                    <i class="fa-regular fa-square"></i> <!-- Kotak kosong icon hitam -->
-                </button>
-            </form>
+            <div class="d-flex align-items-center gap-2">
+                <a href="/tasks/{{ $task->id }}/edit" class="btn btn-sm"
+                    style="color: black; background: none; border: none; padding: 0;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <form action="/tasks/{{ $task->id }}/toggle" method="POST" style="margin: 0;">
+                    @csrf
+                    @method('PATCH')
+                    <button class="btn btn-sm" style="color: black; background: none; border: none; padding: 0;">
+                        <i class="fa-regular fa-square"></i> <!-- Kotak kosong icon hitam -->
+                    </button>
+                </form>
+            </div>
         </div>
         @empty
         <p class="text-muted small">Tidak ada tugas.</p>
@@ -75,13 +81,19 @@
         @forelse($tasks_done as $task)
         <div class="d-flex justify-content-between align-items-center bg-light rounded p-2 mb-2">
             <span>{{ $task->title }}</span>
-            <form action="/tasks/{{ $task->id }}" method="POST" style="margin: 0;">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-sm" style="color: black; background: none; border: none; padding: 0;">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </form>
+            <div class="d-flex align-items-center gap-2">
+                <a href="/tasks/{{ $task->id }}/edit" class="btn btn-sm"
+                    style="color: black; background: none; border: none; padding: 0;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <form action="/tasks/{{ $task->id }}" method="POST" style="margin: 0;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-sm" style="color: black; background: none; border: none; padding: 0;">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </div>
         </div>
         @empty
         <p class="text-muted small">Belum ada yang selesai.</p>
