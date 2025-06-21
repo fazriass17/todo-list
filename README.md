@@ -10,4 +10,5 @@ Cara menjalankan
 2. Jalankan xampp dan buka di "http://localhost/todolist"
 
 kontributor
--Muhamad Nur Pazri Assidik
+Muhamad Nur Pazri Assidikk(https://github.com/fazriass17
+)
